@@ -1,32 +1,60 @@
 import React, { useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Alert, FlatList, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
 import { getActivitiesList } from "../redux/actions";
 import { useSelector, useDispatch } from 'react-redux';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-export const Home = ({ navigation, route }) => {
+export const HomeScreen = ({ navigation, route }) => {
     const { activities } = useSelector(state => state.userReducer);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log("UseEffect running");
+        // console.log("UseEffect running");
         dispatch(getActivitiesList());
-    }, [ ]);
+    }, []);
 
     return (
         <View style={styles.body}>
-            {activities.map((activity,index) => {
-                return(
-                <View style={styles.card} key={index}>
-                    <Text style={styles.text}>
-                        {activity.title}
-                    </Text>
-                </View>
-                );
-            })}
+            <FlatList
+                data={activities}
+                keyExtractor={(item,index) => String(index)}
+                showsVerticalScrollIndicator={false}
+                renderItem={({item}) => {
+                    return(<TouchableWithoutFeedback onPress={() => Alert.alert(item.title,item.description)}>
+                        <View style={styles.card}>
+                            <Text style={styles.text}>{item.title}</Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    )}}
+            />
         </View>
     )
 
 };
+
+export const Logout = ({navigation}) =>
+{
+    useEffect(() => {
+        navigation.navigate('Login', { users: [] });
+    }, []);
+   return(
+       <View>
+
+       </View>
+   )
+}
+
+
+export function Home()
+{
+    const Drawer = createDrawerNavigator();
+    return (
+        <Drawer.Navigator initialRouteName="HomeScreen" screenOptions={{headerShown: false}}>
+          <Drawer.Screen name="HomeScreen" component={HomeScreen} />
+          <Drawer.Screen name="Logout" component={Logout} />
+        </Drawer.Navigator>
+    )
+  }
 
 const styles = StyleSheet.create({
     body:

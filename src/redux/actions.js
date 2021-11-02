@@ -47,8 +47,9 @@ export const getActivitiesList = () => {
                     }
                 });
             const activities = await result.json();
+            // console.log("Activites: " + activities);
             if (activities) {
-                console.log("Activites: " + activities);
+                // console.log("Activites: " + activities);
                 dispatch(
                     {
                         type: GET_ACTIVITIES_LIST,

@@ -53,7 +53,7 @@ const Login = ({ navigation }) => {
       <View style={{ flex: 1, justifyContent: 'flex-end' }}>
         <Image
           style={styles.Image}
-          source={require('../../assets/logos/logo.png')}
+          source={require('../../src/assets/logos/logo.png')}
         />
       </View>
       <View style={{ flex: 2 }}>
@@ -160,7 +160,6 @@ function MainLogin() {
       </Stack.Navigator>
     </NavigationContainer>
   );
-
 }
 
 function App() {
