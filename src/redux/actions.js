@@ -1,6 +1,7 @@
 export const GET_PEOPLE_LIST = 'GET_PEOPLE_LIST';
 export const ADD_ACTIVITY = 'ADD_ACTIVITY';
 export const GET_ACTIVITIES_LIST = 'GET_ACTIVITIES_LIST';
+export const REMOVE_ACTIVITY = 'REMOVE_ACTIVITY';
 
 const API_URL_GET_ACTIVITIES = 'https://next-app-eight-sandy.vercel.app/api/getActivities';
 const API_URL_GETUSERS = 'https://next-app-eight-sandy.vercel.app/api/getUsers';
@@ -66,7 +67,7 @@ export const getActivitiesList = () => {
     }
 }
 
-export const addActivity = (title, description) => {
+export const addActivity = (id,title, description) => {
     return dispatch => {
         fetch(
             API_URL_ADDACTIVITY,
@@ -75,7 +76,7 @@ export const addActivity = (title, description) => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ title, description }),
+                body: JSON.stringify({id, title, description }),
             })
             .then(result => result.json())
             .then((data) => {
@@ -86,9 +87,20 @@ export const addActivity = (title, description) => {
                     }
                 );
             },
-            () => {
-                throw new Error("API POST call failed.")
-            }
+                () => {
+                    throw new Error("API POST call failed.")
+                }
             ).catch((err) => console.log(err));
+    }
+}
+
+export const removeActivity = (id) => {
+    return dispatch => {
+        dispatch(
+            {
+                type: REMOVE_ACTIVITY,
+                payload: id
+            }
+        );
     }
 }
