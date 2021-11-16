@@ -2,9 +2,12 @@ import { SET_USER, SET_LATEST_VERSION } from "./actions";
 
 const initialState = {
 	user: {
-		username: '',
+		name: '',
+		id: '',
 		isAuthenticated: false,
-		appVersion: '',
+	},
+	version: {
+		currentVersion: '',
 		latestVersion: ''
 	}
 }
@@ -14,7 +17,7 @@ function userReducer(state = initialState, action) {
 		case SET_USER:
 			return { ...state, user: action.payload };
 		case SET_LATEST_VERSION:
-			return { ...state, users: action.payload };
+			return { ...state, version: action.payload };
 		default:
 			return state;
 	}

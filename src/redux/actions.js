@@ -1,11 +1,11 @@
 export const SET_USER = 'SET_USER';
 export const SET_LATEST_VERSION = 'SET_LATEST_VERSION';
 
-const API_LOGIN = 'https://next-app-eight-sandy.vercel.app/api/addActivity';
-const API_LATEST_VERSION = 'https://next-app-eight-sandy.vercel.app/api/addActivity';
+const API_LOGIN = 'http://192.168.108.47:3000/api/v1.0/login';
+const API_LATEST_VERSION = 'http://192.168.108.47:3000/api/v1.0/users/{userid}/version';
 
-export const signIn = ({ username, password }) => {
-	return dispatch => {
+export const signIn = ({ name, password }) => {
+	return (dispatch) => {
 		fetch(
 			API_LOGIN,
 			{
@@ -13,41 +13,45 @@ export const signIn = ({ username, password }) => {
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify({ username, password }),
+				body: JSON.stringify({ name, password }),
 			})
-			.then(result => result.json())
+			.then(result => {
+				if (result.ok) {
+					return result.json();
+				}
+				throw new Error("API POST call failed.")
+			})
 			.then((data) => {
 				dispatch(
 					{
 						type: SET_USER,
-						payload: { ...data, isAuthenticated: true }
+						payload: { ...data.data.user, isAuthenticated: true }
 					}
 				);
 			},
-() => {
-	throw new Error("API POST call failed.")
-}
-			).catch ((err) => console.log(err));
+				(error) => {
+					throw new Error("API POST call failed.")
+				}
+			).catch((err) => console.log(err));
 	}
 }
 
-export const getLatestVersion = ({ version }) => {
+export const getLatestVersion = (userid) => {
 	return dispatch => {
 		fetch(
-			API_LATEST_VERSION,
+			API_LATEST_VERSION.replace('{userid}', userid),
 			{
-				method: 'POST',
+				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',
-				},
-				body: { currentVersion: version }
+				}
 			})
 			.then(result => result.json())
 			.then((data) => {
 				dispatch(
 					{
 						type: SET_LATEST_VERSION,
-						payload: data
+						payload: data.data
 					}
 				);
 			},
