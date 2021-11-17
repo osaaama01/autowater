@@ -1,6 +1,6 @@
 // React Imports
 import React, { useEffect, useRef } from "react";
-import { getLatestVersion, SET_USER } from "../redux/actions";
+import { getLatestVersion, SET_LATEST_VERSION, SET_USER } from "../redux/actions";
 
 // Native Element Imports
 import { StyleSheet, Text, View } from "react-native";
@@ -13,26 +13,43 @@ let codePushOptions = { checkFrequency: codePush.CheckFrequency.MANUAL };
 
 export const Home = () => {
 
-	const { user, version } = useSelector(state => state.userReducer);
+	const { user } = useSelector(state => state.userReducer);
 	const dispatch = useDispatch();
+	const API_LATEST_VERSION = 'http://192.168.108.77:3000/api/v1.0/users/{userid}/version';
 
 	useEffect(() => {
-		if (version?.latestVersion) {
-			codePush.sync({
-				installMode: codePush.InstallMode.ON_NEXT_RESTART
-			});
-		}
 		fetchLatestVersion();
 		return () => {
 			dispatch({
 				type: SET_USER,
-				payload: { isAuthenticated: false }
+				payload: { name: '', id: '', isAuthenticated: false }
 			});
 		}
-	}, [user.username]);
+	}, [user]);
 
 	const fetchLatestVersion = () => {
-		dispatch(getLatestVersion(user?.id));
+		if (user?.id) {
+			fetch(
+				API_LATEST_VERSION.replace('{userid}', user.id),
+				{
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+					}
+				})
+				.then(result => result.json())
+				.then((data) => {
+					if (data?.data?.latestVersion) {
+						codePush.sync({
+							installMode: codePush.InstallMode.ON_NEXT_RESTART
+						});
+					}
+				},
+					() => {
+						throw new Error("API POST call failed.")
+					}
+				).catch((err) => console.log(err));
+		}
 	};
 
 
