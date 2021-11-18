@@ -1,8 +1,8 @@
 export const SET_USER = 'SET_USER';
 export const SET_LATEST_VERSION = 'SET_LATEST_VERSION';
 
-const API_LOGIN = 'http://192.168.108.47:3000/api/v1.0/login';
-const API_LATEST_VERSION = 'http://192.168.108.47:3000/api/v1.0/users/{userid}/version';
+const API_LOGIN = 'http://192.168.108.77:3000/api/v1.0/login';
+const API_LATEST_VERSION = 'http://192.168.108.77:3000/api/v1.0/users/{userid}/version';
 
 export const signIn = ({ name, password }) => {
 	return (dispatch) => {
@@ -25,7 +25,7 @@ export const signIn = ({ name, password }) => {
 				dispatch(
 					{
 						type: SET_USER,
-						payload: { ...data.data.user, isAuthenticated: true }
+						payload: { id: data.data.user.id,name: data.data.user.name, isAuthenticated: true }
 					}
 				);
 			},

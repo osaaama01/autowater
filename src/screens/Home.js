@@ -1,6 +1,6 @@
 // React Imports
 import React, { useEffect, useRef } from "react";
-import { getLatestVersion, SET_USER } from "../redux/actions";
+import { getLatestVersion, SET_USER, SET_LATEST_VERSION } from "../redux/actions";
 
 // Native Element Imports
 import { StyleSheet, Text, View } from "react-native";
@@ -17,19 +17,27 @@ export const Home = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
+
+		if (!version?.latestVersion)
+			fetchLatestVersion();
+
 		if (version?.latestVersion) {
 			codePush.sync({
 				installMode: codePush.InstallMode.ON_NEXT_RESTART
 			});
 		}
-		fetchLatestVersion();
+
 		return () => {
 			dispatch({
 				type: SET_USER,
-				payload: { isAuthenticated: false }
+				payload: { user: '', id: '', isAuthenticated: false }
+			});
+			dispatch({
+				type: SET_LATEST_VERSION,
+				payload: {}
 			});
 		}
-	}, [user.username]);
+	}, []);
 
 	const fetchLatestVersion = () => {
 		dispatch(getLatestVersion(user?.id));
@@ -39,7 +47,7 @@ export const Home = () => {
 	return (
 		<View style={styles.body}>
 			<Text style={styles.text}>
-				Version 1.0
+				Version {version.currentVersion}
 			</Text>
 		</View>
 	)

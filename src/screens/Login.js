@@ -19,7 +19,7 @@ import { InputField } from '../components/InputFieldComponent';
 
 const Login = ({ navigation }) => {
 
-  const { user } = useSelector(state => state.userReducer);
+  const { user,version } = useSelector(state => state.userReducer);
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ const Login = ({ navigation }) => {
 
   // Sign In API call
   const onLogin = () => {
-    console.log(user);
+    console.log(user,version);
     if (name && password) {
       dispatch(signIn({ name, password }));
     }
