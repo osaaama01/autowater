@@ -15,7 +15,7 @@ export const Home = () => {
 
 	const { user } = useSelector(state => state.userReducer);
 	const dispatch = useDispatch();
-	const API_LATEST_VERSION = 'http://192.168.108.77:3000/api/v1.0/users/{userid}/version';
+	const API_LATEST_VERSION = 'http://34.124.242.175:3000/api/v1.0/users/{userid}/version';
 
 	useEffect(() => {
 		fetchLatestVersion();

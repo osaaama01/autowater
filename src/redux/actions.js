@@ -1,6 +1,6 @@
 export const SET_USER = 'SET_USER';
 
-const API_LOGIN = 'http://192.168.108.77:3000/api/v1.0/login';
+const API_LOGIN = 'http://34.124.242.175:3000/api/v1.0/login';
 
 export const signIn = ({ name, password }) => {
 	return (dispatch) => {
