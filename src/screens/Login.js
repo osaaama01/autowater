@@ -49,21 +49,23 @@ const Login = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.Container}>
-      <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-        <Image
-          style={styles.Image}
-          source={require('../../assets/logos/logo.png')}
-        />
-      </View>
-      <View style={{ flex: 2 }}>
-        <View style={{ flex: 1, justifyContent: 'flex-start' }}>
-          <View style={{ flex: 0.7, justifyContent: 'space-evenly' }}>
-            <InputField placeholder="Username" onChangeText={(value) => setName(value)} />
-            <InputField placeholder="Password" secureTextEntry={true} onChangeText={(value) => setPassword(value)} />
-          </View>
+      <View style={{ height: 600 }}>
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          <Image
+            style={styles.Image}
+            source={require('../../assets/logos/orange-water-drop.png')}
+          />
         </View>
-        <View style={{ flex: 1, justifyContent: 'flex-start' }}>
-          <CustomButton text="LOGIN" foregroundColor="#009dff" backgroundColor="#009dff" onPress={onLogin} />
+        <View style={{ flex: 2 }}>
+          <View style={{ flex: 1, justifyContent: 'center' }}>
+            <View style={{ flex: 0.7, justifyContent: 'space-evenly' }}>
+              <InputField placeholder="Username" onChangeText={(value) => setName(value)} />
+              <InputField placeholder="Password" secureTextEntry={true} onChangeText={(value) => setPassword(value)} />
+            </View>
+          </View>
+          <View style={{ flex: 1, justifyContent: 'center' }}>
+            <CustomButton text="LOGIN" foregroundColor="dark-orange" backgroundColor="orange" onPress={onLogin} />
+          </View>
         </View>
       </View>
     </SafeAreaView>
@@ -76,14 +78,18 @@ const styles = StyleSheet.create({
   Container:
   {
     flex: 1,
-    backgroundColor: '#ffffff'
+    backgroundColor: '#ffffff',
+    alignItems: 'center',
+    justifyContent: 'center'
+    
   },
   Image:
   {
     height: 120,
     width: 120,
     alignSelf: 'center',
-    borderRadius: 60
+    borderRadius: 60,
+    resizeMode: 'contain'
   }
 });
 

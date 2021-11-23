@@ -56,7 +56,7 @@ export const Home = () => {
 	return (
 		<View style={styles.body}>
 			<Text style={styles.text}>
-				Version 1.0
+				Version 2.0
 			</Text>
 		</View>
 	)
@@ -66,7 +66,7 @@ export const Home = () => {
 const styles = StyleSheet.create({
 	body: {
 		flex: 1,
-		backgroundColor: 'red',
+		backgroundColor: 'orange',
 		alignItems: 'center',
 		justifyContent: 'center'
 	},

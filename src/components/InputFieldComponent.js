@@ -25,9 +25,10 @@ const styles = StyleSheet.create({
 	TextInput:
 	{
 		textAlignVertical: 'top',
-		backgroundColor: '#87f1ff',
+		backgroundColor: 'white',
+		borderWidth: 1,
 		borderRadius: 50,
-		borderColor: '#555',
+		borderColor: 'orange',
 		width: 250,
 		height: 45,
 		alignSelf: 'center',
