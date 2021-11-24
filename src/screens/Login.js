@@ -19,11 +19,7 @@ import { InputField } from '../components/InputFieldComponent';
 
 const Login = ({ navigation }) => {
 
-<<<<<<< HEAD
-  const { user,version } = useSelector(state => state.userReducer);
-=======
   const { user, version } = useSelector(state => state.userReducer);
->>>>>>> dad9728529ba16dfd9e2d79be524e7742cb3c78b
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
