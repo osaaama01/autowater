@@ -1,6 +1,6 @@
 // React Imports
 import React, { useEffect, useRef } from "react";
-import { getLatestVersion, SET_USER, SET_LATEST_VERSION } from "../redux/actions";
+import { getLatestVersion, SET_LATEST_VERSION, SET_USER } from "../redux/actions";
 
 // Native Element Imports
 import { StyleSheet, Text, View } from "react-native";
@@ -13,41 +13,50 @@ let codePushOptions = { checkFrequency: codePush.CheckFrequency.MANUAL };
 
 export const Home = () => {
 
-	const { user, version } = useSelector(state => state.userReducer);
+	const { user } = useSelector(state => state.userReducer);
 	const dispatch = useDispatch();
+	const API_LATEST_VERSION = 'http://34.124.242.175:3000/api/v1.0/users/{userid}/version';
 
 	useEffect(() => {
-
-		if (!version?.latestVersion)
-			fetchLatestVersion();
-
-		if (version?.latestVersion) {
-			codePush.sync({
-				installMode: codePush.InstallMode.ON_NEXT_RESTART
-			});
-		}
-
+		fetchLatestVersion();
 		return () => {
 			dispatch({
 				type: SET_USER,
-				payload: { user: '', id: '', isAuthenticated: false }
-			});
-			dispatch({
-				type: SET_LATEST_VERSION,
-				payload: {}
+				payload: { name: '', id: '', isAuthenticated: false }
 			});
 		}
-	}, []);
+	}, [user]);
 
 	const fetchLatestVersion = () => {
-		dispatch(getLatestVersion(user?.id));
+		if (user?.id) {
+			fetch(
+				API_LATEST_VERSION.replace('{userid}', user.id),
+				{
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+					}
+				})
+				.then(result => result.json())
+				.then((data) => {
+					if (data?.data?.latestVersion) {
+						codePush.sync({
+							installMode: codePush.InstallMode.ON_NEXT_RESTART
+						});
+					}
+				},
+					() => {
+						throw new Error("API POST call failed.")
+					}
+				).catch((err) => console.log(err));
+		}
 	};
 
 
 	return (
 		<View style={styles.body}>
 			<Text style={styles.text}>
-				Version {version.currentVersion}
+				Version 2.0
 			</Text>
 		</View>
 	)
@@ -57,7 +66,7 @@ export const Home = () => {
 const styles = StyleSheet.create({
 	body: {
 		flex: 1,
-		backgroundColor: 'red',
+		backgroundColor: 'orange',
 		alignItems: 'center',
 		justifyContent: 'center'
 	},
