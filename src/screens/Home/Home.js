@@ -4,10 +4,11 @@ import {
     Modal,
     ActivityIndicator
 } from "react-native";
-import { getActivitiesList, addActivity, removeActivity } from "../redux/actions";
+import { getActivitiesList, addActivity, removeActivity } from "../../redux/actions";
 import { useSelector, useDispatch } from 'react-redux';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { InputField } from '../components/InputFieldComponent'
+import { InputField } from '../../components/InputFieldComponent';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 export const HomeScreen = ({ route }) => {
@@ -42,8 +43,9 @@ export const HomeScreen = ({ route }) => {
 
 
                             <Pressable style={{ flex: 0.1 }} onPress={() => onDelete(item.id)}>
-                                <View style={[styles.card,{backgroundColor:'red'}]}>
-                                    <Text style={styles.text}>X</Text>
+                                <View style={[styles.card, { backgroundColor: 'red' }]}>
+                                    <Text style={styles.text}>
+                                        <Icon name="delete" size={25} color="black" /></Text>
                                 </View>
                             </Pressable>
                         </View>
@@ -61,23 +63,21 @@ export const Logout = ({ navigation }) => {
 
     useEffect(() => {
         // console.log("UseEffect running");
-        if(isMountedVal.current)
-        {
-            setTimeout(()=>{
+        if (isMountedVal.current) {
+            setTimeout(() => {
                 // console.log("Call Back running");
                 setIsLoading(false);
-            },1000);
+            }, 1000);
             // console.log("ComponentDidMount");
             isMountedVal.current = false;
         }
 
-        return ()=>
-        {
+        return () => {
             // console.log("Unmounting");
-            navigation.navigate('Login',{users:[]});
+            navigation.navigate('Login', { users: [] });
         }
 
-      });
+    });
 
     if (isLoading)
         return (
@@ -110,32 +110,49 @@ export function Home({ navigation }) {
     }
 
     return (
-        <Drawer.Navigator initialRouteName="HomeScreen" >
+        <Drawer.Navigator initialRouteName="HomeScreen" screenOptions={{
+            headerStyle: {
+                backgroundColor: '#fff',
+            },
+        }}>
             <Drawer.Screen name="HomeScreen" component={HomeScreen} options={
                 {
+                    title: "Home",
+                    drawerIcon: ({ size }) => (
+                        <Icon
+                            name="home"
+                            size={size}
+                        />
+                    ),
                     headerRight: () => (
-                        <Pressable
-                            style={
-                                {
-                                    backgroundColor: '#009dff',
-                                    borderRadius: 50,
-                                    width: 40,
-                                    height: 40,
-                                    alignitems: 'center',
-                                    justifyContent: 'center',
-                                    marginRight: 5
+                        <View style={{flexDirection:'row-reverse',alignItems:'center'}}>
+                            <Pressable
+                                style={
+                                    {
+                                        backgroundColor: '#009dff',
+                                        borderRadius: 50,
+                                        width: 20,
+                                        height: 40,
+                                        alignitems: 'center',
+                                        justifyContent: 'center',
+                                        marginRight: 4,
+                                        flex:0.2
+                                    }
                                 }
-                            }
-                            onPress={() => {
-                                setModalVisible(!modalVisible);
-                            }
-                            }
-                        >
-                            <Text style={{
-                                fontSize: 30,
-                                alignSelf: 'center',
-                                paddingTop: 9
-                            }}>+</Text>
+                                onPress={() => {
+                                    setModalVisible(!modalVisible);
+                                }
+                                }
+                            >
+                                <Text style={{
+                                    alignSelf: 'center',
+                                    alignItems: 'center',
+                                }}><Icon
+                                        name="lead-pencil"
+                                        size={30}
+                                        color={'black'}
+                                    /></Text>
+                            </Pressable>
                             <View style={styles.centeredView}>
                                 <Modal
                                     animationType="slide"
@@ -170,10 +187,19 @@ export function Home({ navigation }) {
                                     </View>
                                 </Modal>
                             </View>
-                        </Pressable>
+                        </View>
+
                     )
                 }} />
-            <Drawer.Screen name="Logout" component={Logout} options={{ headerShown: false }} />
+            <Drawer.Screen name="Logout" component={Logout} options={{
+                headerShown: false,
+                drawerIcon: ({ size, color }) => (
+                    <Icon
+                        name="logout"
+                        size={size}
+                    />
+                ),
+            }} />
         </Drawer.Navigator>
     )
 }
@@ -182,12 +208,12 @@ const styles = StyleSheet.create({
     body:
     {
         flex: 1,
-        backgroundColor: '#246EE9',
+        backgroundColor: '#303fcf',
     },
     card:
     {
         height: 80,
-        backgroundColor: '#3EB489',
+        backgroundColor: '#18dfe7',
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 7,
@@ -201,10 +227,9 @@ const styles = StyleSheet.create({
         fontFamily: 'ShadowsIntoLight-Regular'
     },
     centeredView: {
-        flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 22,
+        flex:1,
     },
     modalView: {
         margin: 20,

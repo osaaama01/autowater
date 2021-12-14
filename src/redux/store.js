@@ -10,7 +10,8 @@ const persistConfig = {
     storage : AsyncStorage,
   }
 
-const rootReducer = combineReducers({userReducer}); // all the reducers you have written
+export const rootReducer = combineReducers({userReducer}); // all the reducers you have written
+
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
